@@ -1,5 +1,5 @@
 from flask import render_template,request,Blueprint
-from flask.templating import render_template_string
+from flask.templating import render_template
 
 core = Blueprint('core', __name__)
 
