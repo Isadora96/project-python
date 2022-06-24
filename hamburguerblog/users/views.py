@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import render_template,url_for,flash,redirect,request,Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -36,24 +35,24 @@ def login():
 
         user = User.query.filter_by(email=form.email.data).first()
 
-            if user.check_password(form.password.data) and user is not None:
+        if user.check_password(form.password.data) and user is not None:
 
-                    login_user(user)
-                    flash('Log in Sucess!')
+                login_user(user)
+                flash('Log in Sucess!')
 
-                    #if user is trying to visit a page that require a log in
+                #if user is trying to visit a page that require a log in
 
-                    next = request.args.get('next')
+                next = request.args.get('next')
 
-                    #if user not requested any page or the page is not homepage 
-                    if next == None or not next[0]=='/':
-                        #next will be the homepage
-                        next = url_for('core.index')
+                #if user not requested any page or the page is not homepage 
+                if next == None or not next[0]=='/':
+                    #next will be the homepage
+                    next = url_for('core.index')
                     
                     #if next is post.html e.g, then go to this page
                     return redirect(next)
 
-    return render_template('login.html', form=form)
+        return render_template('login.html', form=form)
 
 # logout
 @users.route("/logout")

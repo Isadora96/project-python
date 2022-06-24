@@ -7,18 +7,6 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from hamburguerblog.models import User
 
-class CheckCredentials():
-        
-    @staticmethod
-    def check_email(field):
-        if User.query.filter_by(email=field.data).first():
-            raise ValidationError('Your email has been registered already!')
-
-    @staticmethod
-    def check_username(field):
-        if User.query.filter_by(username=field.data).first():
-            raise ValidationError('This username has been registered already!')
-
 class LoginForm(FlaskForm):
 
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -33,18 +21,16 @@ class RegistrationForm(FlaskForm):
     pass_confirm = StringField('Confirm Password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
-    CheckCredentials().check_email()
-    CheckCredentials().check_username()
-
-    """
-    def check_email(self, field):
+    @staticmethod
+    def check_email(field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Your email has been registered already!')
 
-    def check_username(self, field):
+    @staticmethod
+    def check_username(field):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('This username has been registered already!')
-    """
+
 
 class UpdateUserForm(FlaskForm):
 
@@ -53,6 +39,13 @@ class UpdateUserForm(FlaskForm):
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update')
 
-    CheckCredentials().check_email()
-    CheckCredentials().check_username()
+    @staticmethod
+    def check_email(field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('Your email has been registered already!')
+
+    @staticmethod
+    def check_username(field):
+        if User.query.filter_by(username=field.data).first():
+            raise ValidationError('This username has been registered already!')
 
