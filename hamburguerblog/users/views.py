@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import render_template,url_for,flash,redirect,request,Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -50,10 +49,10 @@ def login():
                     #next will be the homepage
                     next = url_for('core.index')
                     
-                    #if next is post.html e.g, then go to this page
-                    return redirect(next)
+                #if next is post.html e.g, then go to this page
+                return redirect(next)
 
-        return render_template('login.html', form=form)
+    return render_template('login.html', form=form)
 
 # logout
 @users.route("/logout")
