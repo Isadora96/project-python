@@ -24,8 +24,10 @@ login_manager.login_view = 'users.login'
 
 from hamburguerblog.core.views import core
 from hamburguerblog.users.views import users
+from hamburguerblog.posts.views import blog_posts
 from hamburguerblog.error_pages.handlers import error_pages
 
 app.register_blueprint(core)
 app.register_blueprint(users)
+app.register_blueprint(blog_posts)
 app.register_blueprint(error_pages)
