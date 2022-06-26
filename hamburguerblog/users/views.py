@@ -88,6 +88,7 @@ def account():
     return render_template('account.html', profile_image=profile_image, form=form)
 
 @users.route("/<username>")
+@login_required
 def user_post(username):
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()

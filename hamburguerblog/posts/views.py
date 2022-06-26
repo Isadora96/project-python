@@ -1,4 +1,3 @@
-from crypt import methods
 from flask import render_template,url_for,flash,request,redirect,Blueprint,abort
 from flask_login import current_user,login_required
 from hamburguerblog import db
@@ -27,10 +26,11 @@ def create_post():
 
 # BLOG POST
 @blog_posts.route("/<int:blog_post_id>")
+@login_required
 def blog_post(blog_post_id):
 
     blog_post = BlogPost.query.get_or_404(blog_post_id)
-    return render_template('blog_post.hmtl', title=blog_post.title, date=blog_post.date,post=blog_post)
+    return render_template('blog_post.html', title=blog_post.title, date=blog_post.date,post=blog_post)
 
 # UPADATE
 @blog_posts.route("/<int:blog_post_id>/update", methods=['GET', 'POST'])
@@ -44,18 +44,18 @@ def update_post(blog_post_id):
     form = BlogPostForm()
 
     if form.validate_on_submit():
-        blog_post.title = form.title.data, 
+        blog_post.title = form.title.data
         blog_post.text = form.text.data
         db.session.commit()
         flash('Blog post updated!!')
-        return redirect(url_for('blog_posts.blog_post',blog_post_id=blog_post_id))
+        return redirect(url_for('blog_posts.blog_post',blog_post_id=blog_post.id))
 
     #when the first view of the page the original title and etc.. willl be already pre-filled out
     elif request.method == 'GET':
         form.title.data = blog_post.title
         form.text.data = blog_post.text
 
-    return render_template('create_post.html', title='Updating',form=form)
+    return render_template('create_post.html', title='Update',form=form)
 
 # DELETE
 @blog_posts.route("/<int:blog_post_id>/delete", methods=['GET', 'POST'])
